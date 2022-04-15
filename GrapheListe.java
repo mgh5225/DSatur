@@ -8,18 +8,23 @@
 
 import java.lang.Iterable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GrapheListe implements IGraphe {
 	private int nbnoeuds, nbarcs;
 	private boolean est_dirige;
 	private ArrayList<ListeChainee<Arc>> arcs;
+	private ArrayList<Node> nodes;
 
 	public GrapheListe(int noeuds, boolean dir) {
 		nbnoeuds = noeuds;
 		est_dirige = dir;
 		arcs = new ArrayList<ListeChainee<Arc>>();
-		for (int i = 0; i < nbnoeuds; i++)
+		nodes = new ArrayList<Node>();
+		for (int i = 0; i < nbnoeuds; i++) {
 			arcs.add(new ListeChainee<Arc>());
+			nodes.add(new Node(i));
+		}
 	}
 
 	public int NbNoeuds() {
@@ -41,6 +46,12 @@ public class GrapheListe implements IGraphe {
 			arcs.get(a.vers).Ajouter(new Arc(a.vers, a.de));
 			nbarcs++;
 		}
+		nodes.get(a.de).incDegree();
+		nodes.get(a.vers).incDegree();
+	}
+
+	public void SortNodes() {
+		Collections.sort(nodes);
 	}
 
 	// retour vrai si l'arc de i a j existe

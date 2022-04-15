@@ -7,4 +7,8 @@ public class Arc {
 		this.vers = vers;
 	}
 
+	public String toString() {
+		return String.format("%d --- %d\n", de, vers);
+	}
+
 }

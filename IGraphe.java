@@ -14,4 +14,6 @@ interface IGraphe {
 
 	// retourne un objet pour iterer sur les arcs sortant de i
 	Iterable<Arc> Adjacents(int i);
+
+	String toString();
 }
