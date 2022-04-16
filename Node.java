@@ -1,4 +1,4 @@
-public class Node implements Comparable<Node> {
+public class Node {
     private int no;
     private int color;
     private int degree;
@@ -52,10 +52,13 @@ public class Node implements Comparable<Node> {
     }
 
     @Override
-    public int compareTo(Node node) {
-        int degree = ((Node) node).getDegree();
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
 
-        return degree - this.degree;
+        var node = (Node) obj;
+        return this.no == node.no;
     }
-
 }

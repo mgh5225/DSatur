@@ -8,22 +8,21 @@
 
 import java.lang.Iterable;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.PriorityQueue;
 
 public class GrapheListe implements IGraphe {
 	private int nbnoeuds, nbarcs;
 	private boolean est_dirige;
 	private ArrayList<ListeChainee<Arc>> arcs;
-	private ArrayList<Node> nodes;
+	private PriorityQueue<Node> nodes;
 
 	public GrapheListe(int noeuds, boolean dir) {
 		nbnoeuds = noeuds;
 		est_dirige = dir;
 		arcs = new ArrayList<ListeChainee<Arc>>();
-		nodes = new ArrayList<Node>();
+		nodes = new PriorityQueue<Node>(nbnoeuds, new NodeComparator());
 		for (int i = 0; i < nbnoeuds; i++) {
 			arcs.add(new ListeChainee<Arc>());
-			nodes.add(new Node(i));
 		}
 	}
 
@@ -46,38 +45,10 @@ public class GrapheListe implements IGraphe {
 			arcs.get(a.vers).Ajouter(new Arc(a.vers, a.de));
 			nbarcs++;
 		}
-		nodes.get(a.de).incDegree();
-		nodes.get(a.vers).incDegree();
 	}
 
-	public void SortNodes() {
-		Collections.sort(nodes);
-	}
-
-	public Node getNode(int no) {
-		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).getNo() == no)
-				return nodes.get(i);
-		}
-		return null;
-	}
-
-	public Node getNode() {
-		int maxI = -1;
-		int maxDsat = 0;
-		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).getColor() != -1)
-				continue;
-
-			if (nodes.get(i).getDsat() > maxDsat) {
-				maxI = i;
-				maxDsat = nodes.get(i).getDsat();
-			}
-		}
-		if (maxI != -1)
-			return nodes.get(maxI);
-		else
-			return null;
+	public PriorityQueue<Node> getNodes() {
+		return nodes;
 	}
 
 	// retour vrai si l'arc de i a j existe
@@ -93,5 +64,9 @@ public class GrapheListe implements IGraphe {
 	// retourne un objet contenant tous les arcs sortant de i
 	public Iterable<Arc> Adjacents(int i) {
 		return arcs.get(i);
+	}
+
+	public int Degree(int i) {
+		return arcs.get(i).Compte();
 	}
 }
