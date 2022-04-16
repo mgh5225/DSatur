@@ -54,6 +54,32 @@ public class GrapheListe implements IGraphe {
 		Collections.sort(nodes);
 	}
 
+	public Node getNode(int no) {
+		for (int i = 0; i < nodes.size(); i++) {
+			if (nodes.get(i).getNo() == no)
+				return nodes.get(i);
+		}
+		return null;
+	}
+
+	public Node getNode() {
+		int maxI = -1;
+		int maxDsat = 0;
+		for (int i = 0; i < nodes.size(); i++) {
+			if (nodes.get(i).getColor() != -1)
+				continue;
+
+			if (nodes.get(i).getDsat() > maxDsat) {
+				maxI = i;
+				maxDsat = nodes.get(i).getDsat();
+			}
+		}
+		if (maxI != -1)
+			return nodes.get(maxI);
+		else
+			return null;
+	}
+
 	// retour vrai si l'arc de i a j existe
 	public boolean Existe(int i, int j) {
 		for (Arc a : arcs.get(i)) {

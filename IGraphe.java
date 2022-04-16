@@ -9,6 +9,12 @@ interface IGraphe {
 
 	void Ajouter(Arc a); // ajoute l'arc a au graphe
 
+	void SortNodes();
+
+	Node getNode(int no);
+
+	Node getNode();
+
 	// retour vrai si l'arc de i a j existe
 	boolean Existe(int i, int j);
 
