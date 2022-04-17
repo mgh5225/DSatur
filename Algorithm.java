@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public final class Algorithm {
@@ -7,12 +9,11 @@ public final class Algorithm {
     }
 
     public static int ColorierDsatur(IGraphe g) {
-        ArrayList<Boolean> used = new ArrayList<Boolean>();
+        PriorityQueue<Node> nodes = new PriorityQueue<Node>(g.NbNoeuds(), new NodeComparator());
+        ArrayList<Boolean> colorUsed = new ArrayList<Boolean>();
         ArrayList<Integer> colors = new ArrayList<Integer>();
         ArrayList<Integer> degrees = new ArrayList<Integer>();
         ArrayList<Set<Integer>> colorSet = new ArrayList<Set<Integer>>();
-
-        var nodes = g.getNodes();
 
         for (int i = 0; i < g.NbNoeuds(); i++) {
             var node = new Node(i);
@@ -22,7 +23,7 @@ public final class Algorithm {
             degrees.add(node.getDegree());
 
             colorSet.add(new HashSet<Integer>());
-            used.add(false);
+            colorUsed.add(false);
         }
 
         while (!nodes.isEmpty()) {
@@ -30,23 +31,24 @@ public final class Algorithm {
 
             for (Arc arc : g.Adjacents(node.getNo())) {
                 if (colors.get(arc.vers) != -1) {
-                    used.set(colors.get(arc.vers), true);
+                    colorUsed.set(colors.get(arc.vers), true);
                 }
             }
 
             int minColor;
             for (minColor = 0; minColor < g.NbNoeuds(); minColor++) {
-                if (used.get(minColor) == false)
+                if (colorUsed.get(minColor) == false)
                     break;
             }
 
             for (Arc arc : g.Adjacents(node.getNo())) {
                 if (colors.get(arc.vers) != -1) {
-                    used.set(colors.get(arc.vers), false);
+                    colorUsed.set(colors.get(arc.vers), false);
                 }
             }
 
             colors.set(node.getNo(), minColor);
+            node.setColor(minColor);
 
             for (Arc arc : g.Adjacents(node.getNo())) {
                 if (colors.get(arc.vers) == -1) {
@@ -62,13 +64,10 @@ public final class Algorithm {
                     nodes.add(newNode);
                 }
             }
+
+            g.getNodes().add(node);
         }
 
-        for (int i = 0; i < colors.size(); i++) {
-            if (colors.get(i) == -1)
-                return i;
-        }
-
-        return 0;
+        return Collections.max(colors) + 1;
     }
 }

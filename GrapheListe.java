@@ -8,19 +8,18 @@
 
 import java.lang.Iterable;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 public class GrapheListe implements IGraphe {
 	private int nbnoeuds, nbarcs;
 	private boolean est_dirige;
 	private ArrayList<ListeChainee<Arc>> arcs;
-	private PriorityQueue<Node> nodes;
+	private ArrayList<Node> nodes;
 
 	public GrapheListe(int noeuds, boolean dir) {
 		nbnoeuds = noeuds;
 		est_dirige = dir;
 		arcs = new ArrayList<ListeChainee<Arc>>();
-		nodes = new PriorityQueue<Node>(nbnoeuds, new NodeComparator());
+		nodes = new ArrayList<Node>();
 		for (int i = 0; i < nbnoeuds; i++) {
 			arcs.add(new ListeChainee<Arc>());
 		}
@@ -47,10 +46,6 @@ public class GrapheListe implements IGraphe {
 		}
 	}
 
-	public PriorityQueue<Node> getNodes() {
-		return nodes;
-	}
-
 	// retour vrai si l'arc de i a j existe
 	public boolean Existe(int i, int j) {
 		for (Arc a : arcs.get(i)) {
@@ -64,6 +59,10 @@ public class GrapheListe implements IGraphe {
 	// retourne un objet contenant tous les arcs sortant de i
 	public Iterable<Arc> Adjacents(int i) {
 		return arcs.get(i);
+	}
+
+	public ArrayList<Node> getNodes() {
+		return nodes;
 	}
 
 	public int Degree(int i) {
