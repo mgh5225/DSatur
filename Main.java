@@ -12,6 +12,8 @@ public class Main {
             System.out.println(String.format("Reading %s", path));
 
             var g = GrapheListe.readFromFile(path);
+            if (g == null)
+                continue;
 
             System.out.println(String.format("Total Nodes %d", g.NbNoeuds()));
             System.out.println(String.format("Total Edges %d", g.NbArcs()));
