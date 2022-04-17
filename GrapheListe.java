@@ -45,7 +45,7 @@ public class GrapheListe implements IGraphe {
 
 					scanner.next();
 
-					g = new GrapheListe(nodes, true);
+					g = new GrapheListe(nodes, false);
 
 				} else {
 					var de = scanner.nextInt() - 1;
