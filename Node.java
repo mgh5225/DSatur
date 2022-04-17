@@ -12,7 +12,7 @@ public class Node {
     }
 
     public String toString() {
-        return String.format("no: %d\ncolor: %d\ndegree: %d\ndsat: %d\n", no, color, degree, dsat);
+        return String.format("no: %d color: %d degree: %d dsat: %d\n", no, color, degree, dsat);
     }
 
     public int getNo() {
@@ -45,10 +45,6 @@ public class Node {
 
     public void setDsat(int dsat) {
         this.dsat = dsat;
-    }
-
-    public void incDegree() {
-        this.degree++;
     }
 
     @Override

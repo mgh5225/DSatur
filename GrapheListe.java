@@ -6,8 +6,11 @@
 	les arcs sortant
 */
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.Iterable;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GrapheListe implements IGraphe {
 	private int nbnoeuds, nbarcs;
@@ -23,6 +26,41 @@ public class GrapheListe implements IGraphe {
 		for (int i = 0; i < nbnoeuds; i++) {
 			arcs.add(new ListeChainee<Arc>());
 		}
+	}
+
+	public static IGraphe readFromFile(String path) {
+		GrapheListe g = null;
+
+		try {
+			var scanner = new Scanner(new File(path));
+
+			while (scanner.hasNext()) {
+
+				var type = scanner.next();
+
+				if (type.equals("p")) {
+					scanner.next();
+
+					var nodes = scanner.nextInt();
+
+					scanner.next();
+
+					g = new GrapheListe(nodes, true);
+
+				} else {
+					var de = scanner.nextInt() - 1;
+					var vers = scanner.nextInt() - 1;
+					if (g != null)
+						g.Ajouter(new Arc(de, vers));
+				}
+
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return g;
 	}
 
 	public int NbNoeuds() {
@@ -67,5 +105,15 @@ public class GrapheListe implements IGraphe {
 
 	public int Degree(int i) {
 		return arcs.get(i).Compte();
+	}
+
+	public String toString() {
+		String str = "";
+		for (Node node : nodes) {
+			str += node;
+		}
+
+		return str;
+
 	}
 }

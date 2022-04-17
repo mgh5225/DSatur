@@ -51,11 +51,11 @@ public final class Algorithm {
             node.setColor(minColor);
 
             for (Arc arc : g.Adjacents(node.getNo())) {
+
+                colorSet.get(arc.vers).add(minColor);
+
                 if (colors.get(arc.vers) == -1) {
                     nodes.remove(new Node(arc.vers));
-                    colorSet.get(arc.vers).add(minColor);
-
-                    degrees.set(arc.vers, degrees.get(arc.vers) - 1);
 
                     var newNode = new Node(arc.vers);
                     newNode.setDegree(degrees.get(newNode.getNo()));
@@ -66,6 +66,10 @@ public final class Algorithm {
             }
 
             g.getNodes().add(node);
+        }
+
+        for (Node node : g.getNodes()) {
+            node.setDsat(colorSet.get(node.getNo()).size());
         }
 
         return Collections.max(colors) + 1;
