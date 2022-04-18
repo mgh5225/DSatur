@@ -11,7 +11,7 @@ public class Main {
         for (String path : instances) {
             System.out.println(String.format("Reading %s", path));
 
-            var g = GrapheListe.readFromFile(path);
+            var g = GrapheListe.readFromFile(path, false);
             if (g == null)
                 continue;
 

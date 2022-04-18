@@ -28,7 +28,7 @@ public class GrapheListe implements IGraphe {
 		}
 	}
 
-	public static IGraphe readFromFile(String path) {
+	public static IGraphe readFromFile(String path, boolean dir) {
 		GrapheListe g = null;
 
 		try {
@@ -45,7 +45,7 @@ public class GrapheListe implements IGraphe {
 
 					scanner.next();
 
-					g = new GrapheListe(nodes, false);
+					g = new GrapheListe(nodes, dir);
 
 				} else {
 					var de = scanner.nextInt() - 1;
